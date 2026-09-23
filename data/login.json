@@ -1,0 +1,42 @@
+[
+  {
+    "username": "admin",
+    "password": "HM_2023_test",
+    "verify_code":"2",
+    "status_code": 200,
+    "code":200,
+     "msg":"成功"
+},
+ {
+    "username": "admin",
+    "password": "123456",
+    "verify_code":"2",
+    "status_code": 200,
+    "code":500,
+     "msg":"错误"
+},
+ {
+    "username": "admin",
+    "password": "HM_2023_test",
+    "verify_code":"3",
+    "status_code": 200,
+    "code":500,
+     "msg":"失效"
+},
+ {
+    "username": "",
+    "password": "HM_2023_test",
+    "verify_code":"2",
+    "status_code": 200,
+    "code":500,
+     "msg":"错误"
+},
+ {
+    "username": "admin",
+    "password": "",
+    "verify_code":"2",
+    "status_code": 200,
+    "code":500,
+     "msg":"错误"
+}
+]

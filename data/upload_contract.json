@@ -1,0 +1,8 @@
+[
+  {"case_id": "SALES_upload_001", "desc": "上传1m正常PDF", "file_name": "1m.pdf", "status_code": 200, "code": 200, "msg": null},
+  {"case_id": "SALES_upload_002", "desc": "上传5m正常PDF", "file_name": "5m.pdf", "status_code": 200, "code": 200, "msg": null},
+  {"case_id": "SALES_upload_003", "desc": "上传9m边界PDF", "file_name": "9m.pdf", "status_code": 200, "code": 200, "msg": null},
+  {"case_id": "SALES_upload_004", "desc": "上传非PDF文件(docx格式错误)", "file_name": "test.docx", "status_code": 200, "code": 500, "msg": null},
+  {"case_id": "SALES_upload_005", "desc": "上传10m超大小PDF", "file_name": "10m.pdf", "status_code": 200, "code": 500, "msg": null},
+  {"case_id": "SALES_upload_006", "desc": "上传演示PDF(基准用例)", "file_name": "演示.pdf", "status_code": 200, "code": 200, "msg": null}
+]

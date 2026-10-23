@@ -1,0 +1,40 @@
+# ============ Python ============
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# ============ 虚拟环境 ============
+.venv/
+venv/
+env/
+
+# ============ 测试报告 ============
+report/*.html
+report/allure-results/
+report/allure-report/
+scripts/report/
+
+# ============ 大文件/临时数据 ============
+data/*.pdf
+data/*.docx
+image/
+
+# ============ 旧脚本/试错 ============
+other/
+
+# ============ IDE ============
+.idea/
+.vscode/
+*.iml
+
+# ============ 系统 ============
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# ============ 敏感配置 ============
+config.py

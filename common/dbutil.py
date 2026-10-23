@@ -1,9 +1,9 @@
-import pymysql
+﻿import pymysql
 
 DB_HOST = "211.103.136.244"
 DB_PORT = 7068
 DB_USER = "student"
-DB_PASSWORD = "KDTX_student_202304"
+DB_PASSWORD = "your_db_password"
 DB_NAME = "huike"
 DB_CHARSET = "utf8"
 

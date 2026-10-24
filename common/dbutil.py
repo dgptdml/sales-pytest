@@ -1,4 +1,4 @@
-﻿import pymysql
+import pymysql
 
 DB_HOST = "211.103.136.244"
 DB_PORT = 7068

@@ -1,4 +1,4 @@
-﻿# 单接口登录测试 — 正向 + 反向全场景，参数化驱动
+# 单接口登录测试 — 正向 + 反向全场景，参数化驱动
 import sys
 import os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))

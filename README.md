@@ -22,13 +22,13 @@
 ## 📁 项目结构
 
 ```
-sales-pytest-api-test/
+sales-pytest/
 ├── api/                    # 接口封装层（纯 requests 调用，不含 pytest）
 │   ├── __init__.py
 │   └── login.py            # 6 个接口：get_verify_code / login / add_course / query_course / upload_contract / add_contract
 ├── common/                 # 工具层
 │   ├── __init__.py
-│   ├── utils.py            # assert_common 三层串行断言
+│   ├── utils.py            # assert_common 三层串行断言 + read_json_file
 │   └── dbutil.py           # DB 工具（预留）
 ├── data/                   # JSON 测试数据（改用例只改 JSON）
 │   ├── login.json
@@ -44,6 +44,7 @@ sales-pytest-api-test/
 ├── config.py               # 配置（URL / 账号）
 ├── config.example.py       # 配置模板（供克隆后复制）
 ├── pytest.ini              # pytest 配置（报告文件名 / markers）
+├── requirements.txt        # 依赖清单
 ├── .gitignore
 └── README.md
 ```
@@ -53,16 +54,9 @@ sales-pytest-api-test/
 ### 1. 克隆 & 安装依赖
 
 ```bash
-git clone https://github.com/yourname/sales-pytest-api-test.git
-cd sales-pytest-api-test
-pip install -r requirements.txt   # 见下方依赖清单
-```
-
-依赖清单：
-```
-pytest>=9.0
-requests>=2.31
-pytest-html>=4.0
+git clone https://github.com/dgptdml/sales-pytest.git
+cd sales-pytest
+pip install -r requirements.txt
 ```
 
 ### 2. 配置账号
@@ -87,6 +81,25 @@ pytest --lf -v
 
 运行完成后，打开 `report/report.html` 查看详细报告。
 
+## 🧪 测试结果
+
+```
+============================= test session starts =============================
+platform win32 -- Python 3.12.8, pytest-9.1.1
+rootdir: sales-pytest
+configfile: pytest.ini
+plugins: html, metadata
+collected 68 items
+
+scripts/test_login_pytest框架.py .........ss............ [ 29%]
+scripts/test_add_course_pytest框架.py ..........FFFFFFFFFFF [ 77%]
+scripts/test_add_contract_pytest框架.py FFFFFFFF...FFFFFFFFFFF [100%]
+
+================== 24 failed, 47 passed, 5 skipped in 413.43s ==============
+```
+
+> **说明**：24 条 FAILED 全部为**后端业务校验缺失**（详见下方缺陷清单），测试脚本与断言预期均来自需求文档，未迁就后端实际行为。5 条 SKIPPED 为网络偶发超时隔离。
+
 ## 🧠 核心设计
 
 ### 1. 四层解耦
@@ -104,8 +117,8 @@ scripts/*.py       →  pytest 测试类，用 JSON 参数化驱动
 
 | 标记 | 含义 | 替换逻辑 |
 |---|---|---|
-| `"auto"` | 动态生成 | `contractNo → f"HT{timestamp}{randint}"` |
-| `"auto"` (courseId) | 动态查询 | fixture 先调 `query_course` 拿真实可用 id |
+| `"auto"` (contractNo) | 动态生成唯一值 | `f"HT{timestamp}{randint}"` |
+| `"auto"` (courseId) | 动态查询可用 ID | fixture 先调 `query_course` 拿真实可用 id |
 | `"auto"` (uuid) | 取真实验证码 | `get_verify_code().json().get('uuid')` |
 | `"auto_noPrefix"` | 故意不带前缀 | 生成 `noPrefix+随机数`，测前缀校验 |
 

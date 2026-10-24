@@ -10,7 +10,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 10
 
     steps:
       # 1. 拉代码
@@ -29,25 +29,24 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # 3.5 生成假的 config.py（CI 环境连不上真实后端，只做语法检查）
+      # 4. 用 Python 写一个假的 config.py（避免 sed 引号转义问题）
       - name: Setup fake config
         run: |
-          cp config.example.py config.py
-          sed -i "s/USERNAME = 'your_username'/USERNAME = 'admin'/" config.py
-          sed -i "s/PASSWORD = 'your_password'/PASSWORD = '123456'/" config.py
+          python -c "
+          with open('config.py', 'w') as f:
+              f.write(\"\"\"import os
+          BASE_DIR = os.path.dirname(__file__)
+          BASE_URL = 'http://localhost:8080'
+          USERNAME = 'admin'
+          PASSWORD = '123456'
+          NAME = 'test'
+          SUBJECT = '6'
+          PRICE = 899
+          APPLICABLE_PERSON = '2'
+          INFO = 'test'
+          \"\"\")
+          "
 
-      # 4. 语法检查（不跑真实接口，只确保能 collect）
+      # 5. 语法检查（collect-only 确保代码能被正确收集，不跑真实接口）
       - name: Check pytest collect
         run: pytest --collect-only -q
-
-      # 5. 运行测试（跳过依赖真实后端的，只跑登录验证码过期用例语法检查）
-      - name: Run pytest
-        run: pytest -v --tb=no -q || true
-
-      # 6. 上传 HTML 报告到 GitHub Artifacts（面试官能下载）
-      - name: Upload HTML report
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: pytest-report
-          path: report/

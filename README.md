@@ -1,4 +1,4 @@
-﻿﻿﻿﻿﻿﻿# 销售管理系统 — 接口自动化测试
+﻿﻿﻿﻿﻿﻿﻿# 销售管理系统 — 接口自动化测试
 
 ## 📖 项目简介
 
@@ -28,8 +28,7 @@ sales-pytest/
 │   └── login.py            # 6 个接口：get_verify_code / login / add_course / query_course / upload_contract / add_contract
 ├── common/                 # 工具层
 │   ├── __init__.py
-│   ├── utils.py            # assert_common 三层串行断言 + read_json_file
-│   └── dbutil.py           # DB 工具（预留）
+│   └── utils.py            # assert_common 三层串行断言 + read_json_file
 ├── data/                   # JSON 测试数据（改用例只改 JSON）
 │   ├── login.json
 │   ├── add_course.json

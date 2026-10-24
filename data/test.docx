@@ -1,0 +1,7 @@
+﻿git : fatal: path 'data/test.docx' exists on disk, but not in 'HEAD~1'
+At line:15 char:3033
++ ... .pdf 2>&1 ; git show HEAD~1:data/test.docx > data/test.docx 2>&1 ; ec ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (fatal: path 'da...not in 'HEAD~1':String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 

@@ -18,11 +18,6 @@ report/allure-results/
 report/allure-report/
 scripts/report/
 
-# ============ 大文件/临时数据 ============
-data/*.pdf
-data/*.docx
-image/
-
 # ============ 旧脚本/试错 ============
 other/
 

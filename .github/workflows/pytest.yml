@@ -29,6 +29,13 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      # 3.5 生成假的 config.py（CI 环境连不上真实后端，只做语法检查）
+      - name: Setup fake config
+        run: |
+          cp config.example.py config.py
+          sed -i "s/USERNAME = 'your_username'/USERNAME = 'admin'/" config.py
+          sed -i "s/PASSWORD = 'your_password'/PASSWORD = '123456'/" config.py
+
       # 4. 语法检查（不跑真实接口，只确保能 collect）
       - name: Check pytest collect
         run: pytest --collect-only -q

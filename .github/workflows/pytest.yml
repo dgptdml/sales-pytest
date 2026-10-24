@@ -1,6 +1,5 @@
 name: Pytest CI
 
-# push / pull_request 时自动触发
 on:
   push:
     branches: [main]
@@ -10,43 +9,40 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 5
 
     steps:
-      # 1. 拉代码
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # 2. 装 Python 3.12
       - name: Set up Python 3.12
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
-      # 3. 装依赖
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # 4. 用 Python 写一个假的 config.py（避免 sed 引号转义问题）
+      # 写假 config.py（用 echo 最稳，避免 Python heredoc 缩进问题）
       - name: Setup fake config
         run: |
-          python -c "
-          with open('config.py', 'w') as f:
-              f.write(\"\"\"import os
-          BASE_DIR = os.path.dirname(__file__)
-          BASE_URL = 'http://localhost:8080'
-          USERNAME = 'admin'
-          PASSWORD = '123456'
-          NAME = 'test'
-          SUBJECT = '6'
-          PRICE = 899
-          APPLICABLE_PERSON = '2'
-          INFO = 'test'
-          \"\"\")
-          "
+          echo "import os" > config.py
+          echo "BASE_DIR = os.path.dirname(__file__)" >> config.py
+          echo "BASE_URL = 'http://localhost:8080'" >> config.py
+          echo "USERNAME = 'admin'" >> config.py
+          echo "PASSWORD = '123456'" >> config.py
+          echo "NAME = 'test'" >> config.py
+          echo "SUBJECT = '6'" >> config.py
+          echo "PRICE = 899" >> config.py
+          echo "APPLICABLE_PERSON = '2'" >> config.py
+          echo "INFO = 'test'" >> config.py
 
-      # 5. 语法检查（collect-only 确保代码能被正确收集，不跑真实接口）
-      - name: Check pytest collect
+      # 语法编译检查（最稳，不触发 import 链）
+      - name: Python compile check
+        run: python -m compileall -q api/ common/ scripts/
+
+      # pytest collect（确保能被 pytest 识别）
+      - name: Pytest collect-only
         run: pytest --collect-only -q
